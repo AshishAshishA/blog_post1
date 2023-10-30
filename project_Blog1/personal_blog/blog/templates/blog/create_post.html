@@ -8,6 +8,9 @@
     <form action="" method="post">
         {% csrf_token %}
         <div>
+            {{form.author}}
+        </div>
+        <div>
             {{form.title}}
         </div>
         <div>

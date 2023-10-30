@@ -24,6 +24,7 @@
         </div>
         <button type="submit" class="btn btn-primary">SUBMIT</button>
     </form>
+        <input type="button" value="DELETE" onclick="location.href='{% url "post-delete" post.id %}'">
     <h3>Comments:</h3>
     {% for comment in comments %}
         <p>

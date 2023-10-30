@@ -1,6 +1,8 @@
-from django.shortcuts import render,HttpResponseRedirect
+from django.shortcuts import render,HttpResponseRedirect,get_object_or_404
 from .models import Post,Comment,Category
 from .forms import CommentForm,PostForm
+from django.views.generic import DeleteView
+from django.urls import reverse
 
 def blog_index(request):
     posts=Post.objects.all().order_by("-created_on")
@@ -47,6 +49,7 @@ def create_post(request):
         form=PostForm(request.POST)
         if form.is_valid():
             post=Post(
+                author=form.cleaned_data["author"],
                 title=form.cleaned_data["title"],
                 body=form.cleaned_data["body"],
             )
@@ -58,4 +61,16 @@ def create_post(request):
         "categories":category1,
     }
     return render(request,'blog/create_post.html',context)
+
+def blog_delete(request,post_id):
+    post=get_object_or_404(Post,pk=post_id)
     
+    if request.method=='POST':
+        author=request.POST.get('author-name','')
+        
+        if author==post.author:
+            post.delete()
+            return HttpResponseRedirect(reverse('blog-index'))
+        else:
+            return render(request,'blog/error_template.html',{"message":"Author name doesn't matched:Deletion failed"})
+    return render(request,'blog/post_confirm_delete.html',{"post":post})     

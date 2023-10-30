@@ -7,6 +7,7 @@ class Category(models.Model):
         return self.name
 
 class Post(models.Model):
+    author = models.CharField(max_length=30)
     title = models.CharField(max_length=250)
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)

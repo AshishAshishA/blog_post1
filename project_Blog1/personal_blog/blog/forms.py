@@ -10,6 +10,10 @@ class CommentForm(forms.Form):
     )
     
 class PostForm(forms.Form):
+    author=forms.CharField(
+        max_length=30,
+        widget=forms.TextInput(attrs={"class":"form-control1","placeholder":"Author Name"}),
+    )
     title=forms.CharField(
         max_length=100,
         widget=forms.TextInput(attrs={"class":"form-control1","placeholder":"Post Title"}),
